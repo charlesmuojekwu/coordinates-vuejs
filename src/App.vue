@@ -11,8 +11,11 @@ export default {
   name: 'App',
   components: {
     Map
-  }
+  },
+
 }
+
+
 </script>
 
 <style>
