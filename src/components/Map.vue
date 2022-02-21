@@ -7,8 +7,11 @@
             <p>{{ MyCoordinates.lat }} Latitude, {{ MyCoordinates.lng }} Longitude</p>
             <hr>
             <button class="btn-sm btn-success" style="margin: 0 5px" @click="ShowInMap()">Show My coordinates</button>
-            <button class="btn-sm  btn-primary">Show My Last coordinates</button>
+            <button class="btn-sm  btn-primary" v-on:click="getLastLocation()">Show My Last coordinates</button>
             <hr>
+            <div v-if="save">
+                <button class="btn-sm btn-warning" style="margin: 0 5px" @click="saveAsLast()">Save coordinates</button>
+            </div>
            
             <h1>Map Showing {{ status }} coordinates</h1>
             <p>{{ MapCoordinates.lat }} Latitude, {{ MapCoordinates.lng }} Longitude</p>
@@ -53,7 +56,9 @@ export default {
               lng: 0
           },
 
-          status:'pending'
+          status:'Last',
+
+          save: false
 
       }
     },
@@ -67,8 +72,16 @@ export default {
 
             // set showing to current
             this.status = 'Current'
-            
-            // save as last coordinates
+
+            // show save buuton
+            this.save = true
+        },
+
+
+        // save current as last coordinates
+        saveAsLast() {
+
+             // save as last coordinates
             let center = {
                 lat: this.MyCoordinates.lat,
                 lng: this.MyCoordinates.lng
@@ -78,6 +91,7 @@ export default {
 
             localStorage.center = JSON.stringify(center);
             localStorage.zoom = zoom;
+
         },
 
 
@@ -104,6 +118,12 @@ export default {
             if(localStorage.zoom) {
                 this.zoom = JSON.parse(localStorage.zoom);
             }
+
+            // set showing to current
+            this.status = 'Last'
+
+             // show save buuton
+            this.save = false
         },
 
 
